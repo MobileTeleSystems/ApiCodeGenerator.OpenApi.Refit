@@ -1,0 +1,64 @@
+﻿{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "test API"
+  },
+  "host": "localhost",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "test",
+      "description": "RESTful test service"
+    }
+  ],
+  "paths": {
+    "testService/testOper": {
+      "get": {
+        "tags": [ "testOper" ],
+        "summary": "Test operation",
+        "operationId": "getTestOperUsingGET",
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "paramWithDef",
+            "in": "query",
+            "description": "Параметр со значением по умолчанию",
+            "type": "string"
+          },
+          {
+            "name": "queryParametr",
+            "in": "query",
+            "description": "Параметр передаваемый в строке запроса",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Запрос успешно принят"
+          }
+        }
+      }
+    },
+    "testService/testOper2": {
+      "get": {
+        "tags": [ "testOper" ],
+        "operationId": "getTestOper2UsingGET",
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "param",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Запрос успешно принят"
+          }
+        }
+      }
+    }
+  }
+ }

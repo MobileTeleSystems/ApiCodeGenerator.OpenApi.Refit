@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="swagger\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="swagger\**\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ApiCodeGenerator.OpenApi.Sdk" Version="3.0.0-rc.10" />
+    <PackageReference Include="NSwag.Core.Yaml" Version="14.0.2" />
+    <PackageReference Include="NSwag.CodeGeneration.CSharp" Version="14.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.1" />
+    <PackageReference Include="Moq" Version="4.18.2" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApiCodeGenerator.OpenApi.Refit\ApiCodeGenerator.OpenApi.Refit.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="swagger\authSchema.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

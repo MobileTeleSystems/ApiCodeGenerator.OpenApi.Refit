@@ -1,0 +1,20 @@
+﻿{%- assign parametersText=new_array -%}
+{%- for parameter in operation.Parameters -%}
+{%-   capture p -%}{% template Client.Interface.Operation.Parameter %}{% endcapture -%}
+{%-   assign arr=p|split:"ёё" -%}
+{%-   if parametersText -%} 
+{%-     assign parametersText = parametersText|concat: arr -%} 
+{%-   else -%} 
+{%-     assign parametersText = arr -%}
+{%-   endif -%}
+{%- endfor -%}
+{{ parametersText | join: ", " -}}
+{%- if OperationCancelationToken -%}
+{%-   if parametersText -%}
+{%-     echo ", " -%}
+{%-   endif -%}
+{%-   echo "System.Threading.CancellationToken cancellationToken" -%}
+{%-   if GenerateOptionalParameters -%}
+{%-     echo " = default(System.Threading.CancellationToken)" -%}
+{%-   endif -%}
+{%- endif -%}

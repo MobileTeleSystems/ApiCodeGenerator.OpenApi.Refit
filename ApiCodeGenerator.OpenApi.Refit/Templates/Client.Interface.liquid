@@ -1,0 +1,22 @@
+﻿{% template Client.Interface.Annotations %}
+[System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
+{{InterfaceAccessModifier}} partial interface {{ InterfaceName }}{% if HasClientBaseInterface %} : {{ ClientBaseInterface }}{% endif %}
+{
+{% for operation in InterfaceOperations -%}
+    {%- assign resultType=operation.ResultType -%}
+    {%- assign operationSuffix='' -%}
+    {% template Client.Interface.Operation %}
+
+    {%- if operation.WrapResponse -%}
+    {%-    assign resultType=operation.WrappedResultType -%}
+    {%-    assign operationSuffix='ApiResponse' -%}
+    {%     template Client.Interface.Operation %}
+
+    {%- endif -%}
+{% endfor -%}
+    {% template Client.Interface.Body %}
+
+}
+{%- for operation in  OperationsWithWrappedParameters %}
+{% template Client.Interface.QueryResponse %}
+{% endfor -%}

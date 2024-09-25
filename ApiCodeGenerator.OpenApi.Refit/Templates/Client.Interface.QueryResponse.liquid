@@ -1,0 +1,11 @@
+﻿{{ InterfaceAccessModifier }} class {{ operation.WrappedParametersClassName}}
+{
+{%- for parameter in operation.WrappedParameters -%}
+    {%- if parameter.HasDescription -%}
+    /// <summary>{{ parameter.Description | csharpdocs }}</summary>
+    {%- endif -%}
+    [AliasAs("{{parameter.Name}}")]
+    public {{ parameter.Type }} {{ parameter.PropertyName }} { get; set; }
+
+{%- endfor -%}
+}

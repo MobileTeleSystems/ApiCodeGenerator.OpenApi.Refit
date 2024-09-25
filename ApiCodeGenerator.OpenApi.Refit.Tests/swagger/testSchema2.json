@@ -1,0 +1,84 @@
+﻿{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "test API"
+  },
+  "host": "localhost",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "test",
+      "description": "RESTful test service"
+    }
+  ],
+  "paths": {
+    "testService/testOper": {
+      "get": {
+        "tags": [ "testOper" ],
+        "summary": "Test operation",
+        "operationId": "getTestOperUsingGET",
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "headerParametr",
+            "in": "header",
+            "description": "Параметр передаваемый в качестве заголовка",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "queryParametr",
+            "in": "query",
+            "description": "Параметр передаваемый в строке запроса",
+            "required": false,
+            "type": "array",
+            "items": { "type": "string" },
+            "collectionFormat": "multi",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "doted.queryParametr",
+            "in": "query",
+            "description": "Параметр передаваемый в строке запроса содержащий точку",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Запрос успешно принят",
+            "schema": {
+              "$ref": "#/definitions/testOperResponse"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [ "testOper" ],
+        "operationId": "createTestOperUsingPOST",
+        "parameters": [
+          {
+            "name": "a",
+            "in": "body",
+            "type": "string"
+          }
+        ],
+        "produces": [ "application/json" ],
+        "responses": { "200": {} }
+      }
+    }
+  },
+  "definitions": {
+    "testOperResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    }
+  }
+}

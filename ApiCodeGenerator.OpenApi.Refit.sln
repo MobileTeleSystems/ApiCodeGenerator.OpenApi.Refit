@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiCodeGenerator.OpenApi.Refit", "ApiCodeGenerator.OpenApi.Refit\ApiCodeGenerator.OpenApi.Refit.csproj", "{438CB2E3-1C99-4A30-8DD9-8E064EB830F9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiCodeGenerator.OpenApi.Refit.Tests", "ApiCodeGenerator.OpenApi.Refit.Tests\ApiCodeGenerator.OpenApi.Refit.Tests.csproj", "{B189D59E-D763-4145-9BCC-737B8A759EDE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{438CB2E3-1C99-4A30-8DD9-8E064EB830F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{438CB2E3-1C99-4A30-8DD9-8E064EB830F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{438CB2E3-1C99-4A30-8DD9-8E064EB830F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{438CB2E3-1C99-4A30-8DD9-8E064EB830F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B189D59E-D763-4145-9BCC-737B8A759EDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B189D59E-D763-4145-9BCC-737B8A759EDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B189D59E-D763-4145-9BCC-737B8A759EDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B189D59E-D763-4145-9BCC-737B8A759EDE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC14F884-34ED-4D58-B3B1-5930D4ED9AEB}
+	EndGlobalSection
+EndGlobal

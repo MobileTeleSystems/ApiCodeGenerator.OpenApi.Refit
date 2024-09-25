@@ -1,0 +1,4 @@
+{%- for errorResponse in operation.ErrorResponses -%}
+[ErrorResponse(typeof({{ errorResponse.Type }}), {{ errorResponse.StatusCode }})]
+{%- endfor -%}
+[{{ operation.HttpMethodUpper }}("/{{ operation.Path }}")]
