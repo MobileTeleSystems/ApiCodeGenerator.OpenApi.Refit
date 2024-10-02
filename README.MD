@@ -1,7 +1,7 @@
 [![NuGet Version](https://img.shields.io/nuget/vpre/ApiCodeGenerator.OpenApi.Refit?style=flat-square)](https://www.nuget.org/packages/ApiCodeGenerator.OpenApi.Refit)
 [![GitHub License](https://img.shields.io/github/license/MobileTeleSystems/ApiCodeGenerator.OpenApi.Refit?style=flat-square)](https://github.com/MobileTeleSystems/ApiCodeGenerator.OpenApi.Refit/blob/dev/LICENSE)
-![Code Coverage](https://img.shields.io/badge/94.30%25-z?style=flat-square&label=coverage) <!-- 
-Before setting up the workflow, the coverage percentage is taken from the IDE  -->
+[![Codacy coverage](https://img.shields.io/codacy/coverage/b69c05d5db6e4569b18117ee90680340?style=flat-square&logo=codacy)](https://app.codacy.com/gh/MobileTeleSystems/ApiCodeGenerator.OpenApi.Refit/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
+
 
 The [ApiCodeGenerator](https://github.com/MobileTeleSystems/ApiCodeGenerator) extension module implements code generation for the [Refit](https://github.com/reactiveui/refit) library.
 
