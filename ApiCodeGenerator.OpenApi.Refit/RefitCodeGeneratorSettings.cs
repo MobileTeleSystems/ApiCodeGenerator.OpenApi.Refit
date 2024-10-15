@@ -60,6 +60,11 @@ namespace ApiCodeGenerator.OpenApi.Refit
         /// <summary>
         /// Включает генерацию параметра для передачи заголовка авторизации.
         /// </summary>
-        public bool AuthorizationHeaderParameter { get; internal set; }
+        public bool AuthorizationHeaderParameter { get; set; }
+
+        /// <summary>
+        /// Тип используемый для двоичного содержиого.
+        /// </summary>
+        public string BinaryPartType { get; set; } = "StreamPart";
     }
 }

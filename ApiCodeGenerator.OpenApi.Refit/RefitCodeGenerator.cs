@@ -30,9 +30,9 @@ namespace ApiCodeGenerator.OpenApi.Refit
         {
             OpenApiDocument = openApiDocument;
             _settings = settings;
+            _settings.CSharpGeneratorSettings.ExcludedTypeNames = ["FileParameter", .. _settings.CSharpGeneratorSettings.ExcludedTypeNames];
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "internal")]
         internal RefitCodeGenerator(OpenApiDocument openApiDocument, RefitCodeGeneratorSettings settings)
             : this(openApiDocument, settings, CreateResolverWithExceptionSchema(settings.CSharpGeneratorSettings, openApiDocument))
         {

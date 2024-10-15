@@ -63,6 +63,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 "        [Get(\"/testService/testOper\")]\n" +
                 "        System.Threading.Tasks.Task<TestOperResponse> GetTestOper([Header(\"headerParametr\")]string headerParametr, [Query(CollectionFormat.Multi)]System.Collections.Generic.IEnumerable<string> queryParametr, [Query][AliasAs(\"doted.queryParametr\")]string doted_queryParametr);\n" +
                 "\n" +
+                "        /// <returns>OK</returns>\n" +
                 "        /// <exception cref=\"Refit.ApiException\">A server side error occurred.</exception>\n" +
                 "        [Post(\"/testService/testOper\")]\n" +
                 "        System.Threading.Tasks.Task CreateTestOper([Body]string a);\n" +

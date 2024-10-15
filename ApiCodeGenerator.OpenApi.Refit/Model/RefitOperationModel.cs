@@ -36,7 +36,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Model
             _generator = generator;
             _resolver = resolver;
 
-            IEnumerable<OpenApiParameter> parameters = operation.ActualParameters;
+            IEnumerable<OpenApiParameter> parameters = GetActualParameters();
 
             if (Settings.AuthorizationHeaderParameter && RequiresAuthentication)
             {
@@ -58,14 +58,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Model
 
             Parameters = parameters
                            .Select(parameter =>
-                           {
-                               if (operation.RequestBody?.Content?.ContainsKey("multipart/form-data") == true)
-                               {
-                                   parameter.Style = OpenApiParameterStyle.Form;
-                                   parameter.Name = ConversionUtilities.ConvertToLowerCamelCase($"{Id}FormData", true);
-                               }
-
-                               return new RefitParameterModel(
+                                new RefitParameterModel(
                                    parameter.Name,
                                    GetParameterVariableName(parameter, operation.Parameters),
                                    GetParameterVariableIdentifier(parameter, operation.Parameters),
@@ -74,8 +67,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Model
                                    operation.Parameters,
                                    Settings.CodeGeneratorSettings,
                                    generator,
-                                   resolver);
-                           })
+                                   resolver))
                            .ToList<CSharpParameterModel>();
         }
 
@@ -177,6 +169,32 @@ namespace ApiCodeGenerator.OpenApi.Refit.Model
                     .Distinct()
                     .ToList();
             }
+        }
+
+        protected override string ResolveParameterType(OpenApiParameter parameter)
+        {
+            if (ConsumesFormUrlEncoded && parameter.Kind == OpenApiParameterKind.Body)
+            {
+                var isNullable = parameter.IsRequired == false || parameter.IsNullable(Settings.CodeGeneratorSettings.SchemaType);
+                var typeNameHint = $"{Id}FormData";
+                return _resolver?.Resolve(parameter.ActualSchema, isNullable, typeNameHint);
+            }
+
+            if (_resolver is not null && HasFormParameters)
+            {
+                var typeName = Settings.BinaryPartType;
+                if (parameter.IsBinaryBodyParameter || parameter.ActualSchema.IsBinary)
+                {
+                    return typeName;
+                }
+
+                if (parameter.ActualSchema.IsArray && parameter.ActualSchema.Item.IsBinary)
+                {
+                    return $"{Settings.CSharpGeneratorSettings.ArrayType}<{typeName}>";
+                }
+            }
+
+            return base.ResolveParameterType(parameter);
         }
 
         private string GetOperationPath()

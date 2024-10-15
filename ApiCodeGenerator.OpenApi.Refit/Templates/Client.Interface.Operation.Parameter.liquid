@@ -1,7 +1,7 @@
 ﻿{% if parameter.IsHeader -%}
 [Header("{{ parameter.Name }}")]{%- elsif parameter.IsQuery -%}
 [Query{% if parameter.CollectionFormat %}(CollectionFormat.{{ parameter.CollectionFormat }}){% endif %}]{%- elsif parameter.IsBody -%}
-[Body{% if parameter.IsForm %}(BodySerializationMethod.UrlEncoded){% endif %}]{%- endif -%}
+[Body{% if operation.ConsumesFormUrlEncoded %}(BodySerializationMethod.UrlEncoded){% endif %}]{%- endif -%}
 {%- if parameter.IsAliased -%}
 [AliasAs("{{parameter.Name}}")]{% endif -%}
 {{- parameter.Type }} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %} = null{% endif %}
