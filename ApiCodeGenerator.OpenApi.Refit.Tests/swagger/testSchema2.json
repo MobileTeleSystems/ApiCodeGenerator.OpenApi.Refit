@@ -13,12 +13,16 @@
     }
   ],
   "paths": {
-    "testService/testOper": {
+    "/testService/testOper": {
       "get": {
-        "tags": [ "testOper" ],
+        "tags": [
+          "testOper"
+        ],
         "summary": "Test operation",
         "operationId": "getTestOperUsingGET",
-        "produces": [ "application/json" ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "headerParametr",
@@ -33,7 +37,9 @@
             "description": "Параметр передаваемый в строке запроса",
             "required": false,
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "collectionFormat": "multi",
             "allowEmptyValue": false
           },
@@ -56,17 +62,27 @@
         "deprecated": false
       },
       "post": {
-        "tags": [ "testOper" ],
+        "tags": [
+          "testOper"
+        ],
         "operationId": "createTestOperUsingPOST",
         "parameters": [
           {
             "name": "a",
             "in": "body",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "produces": [ "application/json" ],
-        "responses": { "200": {} }
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   },

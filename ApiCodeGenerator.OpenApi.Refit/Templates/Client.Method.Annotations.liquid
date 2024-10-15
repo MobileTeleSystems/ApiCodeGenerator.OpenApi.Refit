@@ -1,4 +1,7 @@
 {%- for errorResponse in operation.ErrorResponses -%}
 [ErrorResponse(typeof({{ errorResponse.Type }}), {{ errorResponse.StatusCode }})]
 {%- endfor -%}
+{%- if operation.HasFormParameters and operation.ConsumesFormUrlEncoded == false  -%}
+[Multipart]
+{% endif -%}
 [{{ operation.HttpMethodUpper }}("/{{ operation.Path }}")]

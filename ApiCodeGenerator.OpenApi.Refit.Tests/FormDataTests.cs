@@ -13,31 +13,34 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
         [Test]
         public async Task FormData()
         {
-            var json = "{" + OpenApiDocumentDeclaration + @"
-  ""paths"": {
-    ""/test"": {
-      ""post"": {
-        ""operationId"": ""GetTest"",
-        ""requestBody"": {
-            ""content"":{
-                ""multipart/form-data"":{
-                    ""schema"":{
-                        ""type"": ""object"",
-                        ""properties"": {
-                            ""testProp"":{""type"":""string""}
-                        },
-                        ""additionalProperties"": false
-                    },
-                    ""encoding"":{""testProp"": {""style"":""form""}}
+            var json = $$"""
+            {
+                {{OpenApiDocumentDeclaration}}
+                "paths": {
+                    "/test": {
+                        "post": {
+                            "operationId": "GetTest",
+                            "requestBody": {
+                                "content":{
+                                    "application/x-www-form-urlencoded":{
+                                        "schema":{
+                                            "type": "object",
+                                            "properties": {
+                                                "testProp":{"type":"string"}
+                                            },
+                                            "additionalProperties": false
+                                        }
+                                    }
+                                }
+                            },
+                            "responses": {
+                                "200": {"description": "valid input"}
+                            }
+                        }
+                    }
                 }
             }
-        },
-        ""responses"": {
-          ""200"": {""description"": ""valid input""}
-        }
-      }
-    }
-  }}";
+            """;
             var document = await OpenApiDocument.FromJsonAsync(json);
             RefitCodeGeneratorSettings settings = new()
             {
@@ -53,7 +56,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 "        /// <returns>valid input</returns>\n" +
                 "        /// <exception cref=\"Refit.ApiException\">A server side error occurred.</exception>\n" +
                 "        [Post(\"/test\")]\n" +
-                $"        System.Threading.Tasks.Task GetTest([Body(BodySerializationMethod.UrlEncoded)]GetTestFormData getTestFormData);\n" +
+                $"        System.Threading.Tasks.Task GetTest([Body(BodySerializationMethod.UrlEncoded)]GetTestFormData body);\n" +
                 "\n" +
                 "    }\n";
             var expectedClassCode =
@@ -65,6 +68,31 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 "\n" +
                 "    }\n";
             RunTest(settings, expectedInterfaceCode, document, expectedClassCode);
+        }
+
+        [Test]
+        public void FileUpload()
+        {
+            //Arrange
+            var settings = new RefitCodeGeneratorSettings
+            {
+                GenerateClientInterfaces = true,
+                CSharpGeneratorSettings = { Namespace = "TestNS" },
+            };
+
+            var expected =
+                "    public partial interface IClient\n" +
+                "    {\n" +
+                "        /// <returns>OK</returns>\n" +
+                "        /// <exception cref=\"Refit.ApiException\">A server side error occurred.</exception>\n" +
+                "        [Multipart]\n" +
+                "        [Post(\"/file\")]\n" +
+                "        System.Threading.Tasks.Task Upload(int? id, StreamPart file, System.Collections.Generic.ICollection<StreamPart> fileArr);\n" +
+                "\n" +
+                "    }\n";
+
+            //Act & Assert
+            RunTest(settings, expected, "multipart.yml", "    \n");
         }
     }
 }
