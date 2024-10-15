@@ -7,13 +7,15 @@ on:
   workflow_dispatch: 
   push:
     branches: [ "dev"]
-    paths: 
-      - src/**
-      - test/**
+    paths-ignore: 
+      - README.MD
+      - README_RU.MD
+      - LICENSE
   pull_request:
-    paths: 
-      - src/**
-      - test/**
+    paths-ignore: 
+      - README.MD
+      - README_RU.MD
+      - LICENSE      
 
 jobs:
   build_and_test:
