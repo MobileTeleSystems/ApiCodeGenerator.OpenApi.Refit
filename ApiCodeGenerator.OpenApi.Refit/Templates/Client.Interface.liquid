@@ -1,5 +1,5 @@
 ﻿{% template Client.Interface.Annotations %}
-[System.CodeDom.Compiler.GeneratedCode("NSwag", "{{ ToolchainVersion }}")]
+[System.CodeDom.Compiler.GeneratedCode("ApiCodeGenerator.OpenApi.Refit", "{{ ToolchainVersion }}")]
 {{InterfaceAccessModifier}} partial interface {{ InterfaceName }}{% if HasClientBaseInterface %} : {{ ClientBaseInterface }}{% endif %}
 {
 {% for operation in InterfaceOperations -%}

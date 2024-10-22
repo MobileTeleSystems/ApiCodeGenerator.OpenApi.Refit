@@ -27,7 +27,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Model
             _settings = settings;
             InterfaceOperations = operations;
             InterfaceName = controllerClassName;
-            ExceptionClass = settings.ExceptionClass.Replace("{controller}", controllerName);
+            ExceptionClass = "Refit.ApiException";
         }
 
         /// <summary>

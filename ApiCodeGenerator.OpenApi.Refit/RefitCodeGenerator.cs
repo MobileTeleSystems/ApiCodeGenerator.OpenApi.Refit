@@ -15,7 +15,7 @@ namespace ApiCodeGenerator.OpenApi.Refit
     /// <summary>
     /// Реализует логику генерации кода клиента Service Registry по документу OpenApi.
     /// </summary>
-    public class RefitCodeGenerator : CSharpClientGenerator
+    public class RefitCodeGenerator : CSharpGeneratorBase
     {
         private readonly RefitCodeGeneratorSettings _settings;
 
@@ -29,14 +29,19 @@ namespace ApiCodeGenerator.OpenApi.Refit
             : base(Cleanup(openApiDocument, settings), settings, resolver)
         {
             OpenApiDocument = openApiDocument;
+            BaseSettings = settings;
             _settings = settings;
             _settings.CSharpGeneratorSettings.ExcludedTypeNames = ["FileParameter", .. _settings.CSharpGeneratorSettings.ExcludedTypeNames];
+            SetUsages();
         }
 
         internal RefitCodeGenerator(OpenApiDocument openApiDocument, RefitCodeGeneratorSettings settings)
             : this(openApiDocument, settings, CreateResolverWithExceptionSchema(settings.CSharpGeneratorSettings, openApiDocument))
         {
         }
+
+        /// <inheritdoc/>
+        public override ClientGeneratorBaseSettings BaseSettings { get; }
 
         /// <summary>
         /// OpenApi документ.
@@ -50,7 +55,7 @@ namespace ApiCodeGenerator.OpenApi.Refit
             if (model.HasOperations && model.GenerateClientInterfaces)
             {
                 model.InitWrappedQueryParameters();
-                var template = Settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Interface", model);
+                var template = _settings.CSharpGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "Client.Interface", model);
                 yield return new CodeArtifact(model.InterfaceName, CodeArtifactType.Interface, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Contract, template);
             }
         }
@@ -64,22 +69,13 @@ namespace ApiCodeGenerator.OpenApi.Refit
         /// <returns>Модель кода интерфейса.</returns>
         protected virtual RefitClientTemplateModel CreateTemplateModel(string controllerName, string controllerClassName, IEnumerable<CSharpOperationModel> operations)
         {
-            return new RefitClientTemplateModel(controllerName, controllerClassName, (RefitCodeGeneratorSettings)Settings, operations);
+            return new RefitClientTemplateModel(controllerName, controllerClassName, _settings, operations);
         }
 
         /// <inheritdoc />
         protected override CSharpOperationModel CreateOperationModel(OpenApiOperation operation, ClientGeneratorBaseSettings settings)
         {
-            return new RefitOperationModel(operation, (RefitCodeGeneratorSettings)Settings, this, (CSharpTypeResolver)Resolver);
-        }
-
-        /// <inheritdoc />
-        protected override string GenerateFile(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType)
-        {
-            // Перегружаем метод, для задания новой модели, т.к. в стандартной модели если нет флага генерации класса клиента, то интерфейс не генерируется
-            var model = CreateFileTemplateModel(clientTypes, dtoTypes, outputType);
-            var template = _settings.CodeGeneratorSettings.TemplateFactory.CreateTemplate("CSharp", "File", model);
-            return template.Render();
+            return new RefitOperationModel(operation, _settings, this, (CSharpTypeResolver)Resolver);
         }
 
         /// <summary>
@@ -90,24 +86,19 @@ namespace ApiCodeGenerator.OpenApi.Refit
         /// <param name="outputType">Типов вывода.</param>
         /// <returns>Возвращает экземпляр модели.</returns>
         protected virtual CSharpFileTemplateModel CreateFileTemplateModel(IEnumerable<CodeArtifact> clientTypes, IEnumerable<CodeArtifact> dtoTypes, ClientGeneratorOutputType outputType)
-        {
-            var usages = GetUsages();
-            if (outputType == ClientGeneratorOutputType.Contracts)
-            {
-                _settings.AdditionalContractNamespaceUsages = _settings.AdditionalContractNamespaceUsages.Union(usages).ToArray();
-            }
-            else
-            {
-                _settings.AdditionalNamespaceUsages = _settings.AdditionalNamespaceUsages.Union(usages).ToArray();
-            }
-
-            return new CSharpFileTemplateModel(clientTypes, dtoTypes, outputType, OpenApiDocument, _settings, this, (CSharpTypeResolver)Resolver);
-        }
+            => new CSharpFileTemplateModel(clientTypes, dtoTypes, outputType, OpenApiDocument, _settings, this, (CSharpTypeResolver)Resolver);
 
         /// <summary> Перечень пространств имен, которые требуется включить в вывод. </summary>
         /// <returns> Массив пространств имен. </returns>
         protected virtual IEnumerable<string> GetUsages()
-            => new[] { "Refit" };
+            => ["Refit"];
+
+        protected void SetUsages()
+        {
+            var usages = GetUsages();
+            _settings.AdditionalContractNamespaceUsages = [.. _settings.AdditionalContractNamespaceUsages, .. usages];
+            _settings.AdditionalNamespaceUsages = [.. _settings.AdditionalNamespaceUsages, .. usages];
+        }
 
         private static OpenApiDocument Cleanup(OpenApiDocument document, RefitCodeGeneratorSettings settings)
         {

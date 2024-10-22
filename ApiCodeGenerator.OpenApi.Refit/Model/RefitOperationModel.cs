@@ -75,6 +75,11 @@ namespace ApiCodeGenerator.OpenApi.Refit.Model
         public override string ActualOperationName
             => base.ActualOperationName.Replace($"Using{HttpMethod.ToUpper()}", string.Empty);
 
+        public new virtual IEnumerable<CSharpExceptionDescriptionModel> ExceptionDescriptions
+        {
+            get => [];
+        }
+
         /// <inheritdoc/>
         public override string ResultType
         {

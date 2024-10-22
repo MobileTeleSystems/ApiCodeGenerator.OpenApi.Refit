@@ -5,8 +5,8 @@ namespace ApiCodeGenerator.Tests
 {
     internal static partial class Helpers
     {
-        private static RefitCodeGenerator CreateGenerator(OpenApiDocument openApiDocument, CSharpClientGeneratorSettings settings)
-            => new(openApiDocument, (RefitCodeGeneratorSettings)settings);
+        private static RefitCodeGenerator CreateGenerator(OpenApiDocument openApiDocument, RefitCodeGeneratorSettings settings)
+            => new(openApiDocument, settings);
 
         private static string GetAdditionalUsings() => "using Refit;\n\n";
     }

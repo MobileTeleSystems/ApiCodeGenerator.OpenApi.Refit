@@ -10,27 +10,30 @@ namespace ApiCodeGenerator.OpenApi.Refit
     /// <summary>
     /// Настройки генератора кода.
     /// </summary>
-    public class RefitCodeGeneratorSettings : CSharpClientGeneratorSettings
+    public class RefitCodeGeneratorSettings : CSharpGeneratorBaseSettings
     {
         /// <summary>
         /// Создает новый экземпляр класса <see cref="RefitCodeGeneratorSettings"/>.
         /// </summary>
         public RefitCodeGeneratorSettings()
         {
-            CSharpGeneratorSettings.TemplateFactory = new DefaultTemplateFactory(
+            CSharpGeneratorSettings.TemplateFactory = new TemplateFactory(
                 CodeGeneratorSettings,
-                new Assembly[]
-                {
+                [
                     GetType().Assembly,
                     typeof(CSharpClientGeneratorSettings).Assembly,
                     typeof(NJsonSchema.CodeGeneration.CSharp.CSharpGenerator).Assembly,
-                });
+                ]);
 
-            GenerateExceptionClasses = false;
             GenerateResponseClasses = false;
             ResponseClass = "IApiResponse";
-            ExceptionClass = "Refit.ApiException";
+            ClassName = "{controller}Client";
         }
+
+        /// <summary>
+        /// Предоставляет или задает базовый интерфейс.
+        /// </summary>
+        public string ClientBaseInterface { get; set; }
 
         /// <summary>
         /// Предоставляет или задает модификатор доступа интерфейса.
