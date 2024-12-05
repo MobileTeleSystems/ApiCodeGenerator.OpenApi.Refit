@@ -1,4 +1,4 @@
-<Project Sdk="ApiCodeGenerator.OpenApi.Sdk/3.0.0-rc.18">
+<Project Sdk="ApiCodeGenerator.OpenApi.Sdk/3.0.0-rc.44">
 
   <PropertyGroup>
     <Description>Generates code for the Refit library from an OpenApi document.</Description>

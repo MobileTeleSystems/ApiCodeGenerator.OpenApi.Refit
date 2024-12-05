@@ -56,12 +56,12 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 "        /// <returns>valid input</returns>\n" +
                 "        /// <exception cref=\"Refit.ApiException\">A server side error occurred.</exception>\n" +
                 "        [Post(\"/test\")]\n" +
-                $"        System.Threading.Tasks.Task GetTest([Body(BodySerializationMethod.UrlEncoded)]GetTestFormData body);\n" +
+                $"        System.Threading.Tasks.Task GetTest([Body(BodySerializationMethod.UrlEncoded)]Body body);\n" +
                 "\n" +
                 "    }\n";
             var expectedClassCode =
                $"    {GENERATED_CODE}\n" +
-                "    public partial class GetTestFormData\n" +
+                "    public partial class Body\n" +
                 "    {\n" +
                 "        [Newtonsoft.Json.JsonProperty(\"testProp\", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]\n" +
                 "        public string TestProp { get; set; }\n" +
