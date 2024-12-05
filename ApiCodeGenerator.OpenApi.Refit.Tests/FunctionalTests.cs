@@ -484,6 +484,36 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
         }
 
         [Test]
+        public void ExcludeParam()
+        {
+            var settings = new RefitCodeGeneratorSettings
+            {
+                GenerateClientInterfaces = true,
+                ExcludedParameterNames = [
+                    "paramWithDef"
+                ],
+                CSharpGeneratorSettings = { Namespace = "TestNS" },
+            };
+
+            var expected =
+                        "    public partial interface IClient\n" +
+                        "    {\n" +
+                        "        /// <summary>\n" +
+                        "        /// Test operation\n" +
+                        "        /// </summary>\n" +
+                        "        /// <param name=\"queryParametr\">Параметр передаваемый в строке запроса</param>\n" +
+                        "        /// <returns>Запрос успешно принят</returns>\n" +
+                        "        /// <exception cref=\"Refit.ApiException\">A server side error occurred.</exception>\n" +
+                        "        [Get(\"/testService/testOper\")]\n" +
+                        "        System.Threading.Tasks.Task<TestOperResponse> GetTestOper([Query]string queryParametr);\n" +
+                        "\n" +
+                        "    }\n";
+
+            //Act & Assert
+            RunTest(settings, expected, "defaultParamTestSchema.json");
+        }
+
+        [Test]
         public void GenerateClientInterface_AuthHeaderParameter()
         {
             //Arrange

@@ -178,24 +178,27 @@ namespace ApiCodeGenerator.OpenApi.Refit.Model
 
         protected override string ResolveParameterType(OpenApiParameter parameter)
         {
-            if (ConsumesFormUrlEncoded && parameter.Kind == OpenApiParameterKind.Body)
+            if (Settings is not null)
             {
-                var isNullable = parameter.IsRequired == false || parameter.IsNullable(Settings.CodeGeneratorSettings.SchemaType);
-                var typeNameHint = $"{Id}FormData";
-                return _resolver?.Resolve(parameter.ActualSchema, isNullable, typeNameHint);
-            }
-
-            if (_resolver is not null && HasFormParameters)
-            {
-                var typeName = Settings.BinaryPartType;
-                if (parameter.IsBinaryBodyParameter || parameter.ActualSchema.IsBinary)
+                if (ConsumesFormUrlEncoded && parameter.Kind == OpenApiParameterKind.Body)
                 {
-                    return typeName;
+                    var isNullable = parameter.IsRequired == false || parameter.IsNullable(Settings.CodeGeneratorSettings.SchemaType);
+                    var typeNameHint = $"{Id}FormData";
+                    return _resolver?.Resolve(parameter.ActualSchema, isNullable, typeNameHint);
                 }
 
-                if (parameter.ActualSchema.IsArray && parameter.ActualSchema.Item.IsBinary)
+                if (_resolver is not null && HasFormParameters)
                 {
-                    return $"{Settings.CSharpGeneratorSettings.ArrayType}<{typeName}>";
+                    var typeName = Settings.BinaryPartType;
+                    if (parameter.IsBinaryBodyParameter || parameter.ActualSchema.IsBinary)
+                    {
+                        return typeName;
+                    }
+
+                    if (parameter.ActualSchema.IsArray && parameter.ActualSchema.Item.IsBinary)
+                    {
+                        return $"{Settings.CSharpGeneratorSettings.ArrayType}<{typeName}>";
+                    }
                 }
             }
 
