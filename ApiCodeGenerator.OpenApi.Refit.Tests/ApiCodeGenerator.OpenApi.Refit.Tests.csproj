@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApiCodeGenerator.OpenApi.Sdk" Version="3.0.0-rc.18" />
+    <PackageReference Include="ApiCodeGenerator.OpenApi.Sdk" Version="3.0.0-rc.44" />
     <PackageReference Include="NSwag.Core.Yaml" Version="14.0.2" />
     <PackageReference Include="NSwag.CodeGeneration.CSharp" Version="14.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.1" />
