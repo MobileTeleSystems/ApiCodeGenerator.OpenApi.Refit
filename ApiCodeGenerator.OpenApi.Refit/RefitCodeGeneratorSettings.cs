@@ -66,7 +66,7 @@ namespace ApiCodeGenerator.OpenApi.Refit
         public bool AuthorizationHeaderParameter { get; set; }
 
         /// <summary>
-        /// Тип используемый для двоичного содержиого.
+        /// Тип используемый для двоичного содержимого.
         /// </summary>
         public string BinaryPartType { get; set; } = "StreamPart";
     }

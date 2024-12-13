@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "https://raw.githubusercontent.com/MobileTeleSystems/ApiCodeGenerator/refs/heads/dev/schemas/nswag.json#/definitions/nswagDocument"
+    },
+    {
+      "properties": {
+        "codeGenerators": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/openApiToRefit"
+            },
+            {
+              "$ref": "https://raw.githubusercontent.com/MobileTeleSystems/ApiCodeGenerator/refs/heads/master/schemas/nswag.json#/definitions/codeGenerators"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "openApiToRefit": {
+      "additionalProperties": false,
+      "properties": {
+        "openApiToRefitClient": {
+          "description": "Generates a client description for the Refit library",
+          "$ref": "#/definitions/refitGeneratorSettings"
+        }
+      },
+      "required": [
+        "openApiToRefitClient"
+      ]
+    },
+    "refitGeneratorSettings": {
+      "anyOf": [
+        {
+          "$ref": "https://raw.githubusercontent.com/MobileTeleSystems/ApiCodeGenerator/refs/heads/master/schemas/nswag.json#/definitions/csGeneratorBaseSettings"
+        },
+        {
+          "properties": {
+            "clientBaseInterface": {
+              "type": "boolean",
+              "description": "The full name of the base interface."
+            },
+            "interfaceAccessModifier": {
+              "type": "string",
+              "description": "The client interface access modifier (default: public).",
+              "default": "public"
+            },
+            "operationAsyncSuffix": {
+              "type": "boolean",
+              "description": "Value indicating whether to append 'Async' suffix to the method name."
+            },
+            "operationCancelationToken": {
+              "type": "boolean",
+              "description": "Value indicating whether to add the cancellation token to the parameter list."
+            },
+            "pathExtractExpression": {
+              "type": "string",
+              "description": "The Regular expression for getting the operation path."
+            },
+            "wrapQueryParmetersMethods": {
+              "type": "array",
+              "description": "The list of methods where query parameters are wrapped (\"ControllerName.MethodName\", '*' may be used).",
+              "items": {
+                "type": "string"
+              }
+            },
+            "authorizationHeaderParameter": {
+              "type": "boolean",
+              "description": "Value indicating whether to add the authorization header to the parameter list."
+            },
+            "binaryPartType": {
+              "type": "string",
+              "description": "The .NET type used for binary data (default: StreamPart).",
+              "default": "StreamPart"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
