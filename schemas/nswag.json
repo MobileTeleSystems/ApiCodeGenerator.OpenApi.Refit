@@ -7,19 +7,22 @@
     {
       "properties": {
         "codeGenerators": {
-          "oneOf": [
-            {
-              "$ref": "#/definitions/openApiToRefit"
-            },
-            {
-              "$ref": "https://raw.githubusercontent.com/MobileTeleSystems/ApiCodeGenerator/refs/heads/master/schemas/nswag.json#/definitions/codeGenerators"
-            }
-          ]
+          "$ref": "#/definitions/codeGenerators"
         }
       }
     }
   ],
   "definitions": {
+    "codeGenerators": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/openApiToRefit"
+        },
+        {
+          "$ref": "https://raw.githubusercontent.com/MobileTeleSystems/ApiCodeGenerator/refs/heads/master/schemas/nswag.json#/definitions/codeGenerators"
+        }
+      ]
+    },
     "openApiToRefit": {
       "additionalProperties": false,
       "properties": {
