@@ -541,5 +541,31 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
             //Act & Assert
             RunTest(settings, expected, "authSchema.json");
         }
+
+        [Test]
+        public void GenerateClientInterface_BinaryResponse()
+        {
+            var settings = new RefitCodeGeneratorSettings
+            {
+                BinaryResponseType = "System.Net.Http.HttpContent",
+                GenerateClientInterfaces = true,
+                GenerateOptionalParameters = false,
+                CSharpGeneratorSettings =
+                {
+                    Namespace = "TestNS",
+                },
+            };
+
+            var expected =
+                "    public partial interface IClient\n" +
+                "    {\n" +
+                "        /// <exception cref=\"Refit.ApiException\">A server side error occurred.</exception>\n" +
+                "        [Get(\"/download\")]\n" +
+                "        System.Threading.Tasks.Task<System.Net.Http.HttpContent> Download();\n" +
+                "\n" +
+                "    }\n";
+
+            RunTest(settings, expected, "streamResponse.yaml", "    \n");
+        }
     }
 }

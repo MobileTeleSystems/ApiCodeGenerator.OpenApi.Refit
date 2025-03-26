@@ -78,6 +78,11 @@
               "type": "string",
               "description": "The .NET type used for binary data (default: StreamPart).",
               "default": "StreamPart"
+            },
+            "binaryResponseType": {
+              "type": "string",
+              "description": "The .NET type used for binary response (default: System.IO.Stream).",
+              "default": "System.IO.Stream"
             }
           }
         }

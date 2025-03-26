@@ -31,7 +31,12 @@ namespace ApiCodeGenerator.OpenApi.Refit
             OpenApiDocument = openApiDocument;
             BaseSettings = settings;
             _settings = settings;
-            _settings.CSharpGeneratorSettings.ExcludedTypeNames = ["FileParameter", .. _settings.CSharpGeneratorSettings.ExcludedTypeNames];
+            _settings.CSharpGeneratorSettings.ExcludedTypeNames =
+                [
+                    "FileParameter",
+                    "FileResponse",
+                    .. _settings.CSharpGeneratorSettings.ExcludedTypeNames
+                ];
             SetUsages();
         }
 
@@ -47,6 +52,8 @@ namespace ApiCodeGenerator.OpenApi.Refit
         /// OpenApi документ.
         /// </summary>
         protected OpenApiDocument OpenApiDocument { get; }
+
+        public override string GetBinaryResponseTypeName() => _settings.BinaryResponseType;
 
         /// <inheritdoc />
         protected override IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IEnumerable<CSharpOperationModel> operations)
