@@ -69,5 +69,10 @@ namespace ApiCodeGenerator.OpenApi.Refit
         /// Тип используемый для двоичного содержимого.
         /// </summary>
         public string BinaryPartType { get; set; } = "StreamPart";
+
+        /// <summary>
+        /// Тип используемый для двоичного ответа.
+        /// </summary>
+        public string BinaryResponseType { get; set; } = "System.IO.Stream";
     }
 }

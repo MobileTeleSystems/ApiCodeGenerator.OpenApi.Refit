@@ -1,0 +1,15 @@
+openapi: 3.0.0
+info:
+  title: ""
+  version: "1.0.0"
+paths:
+  /download:
+    get:
+      responses:
+        "200":
+          description: ""
+          content:
+            "application/json":
+              schema:
+                type: string
+                format: binary
