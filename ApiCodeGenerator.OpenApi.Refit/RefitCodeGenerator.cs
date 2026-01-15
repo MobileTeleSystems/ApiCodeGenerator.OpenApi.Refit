@@ -58,6 +58,7 @@ namespace ApiCodeGenerator.OpenApi.Refit
         /// <inheritdoc />
         protected override IEnumerable<CodeArtifact> GenerateClientTypes(string controllerName, string controllerClassName, IEnumerable<CSharpOperationModel> operations)
         {
+            GenerateClientInlineReponses(operations);
             RefitClientTemplateModel model = CreateTemplateModel(controllerName, 'I' + controllerClassName, operations);
             if (model.HasOperations && model.GenerateClientInterfaces)
             {
@@ -137,6 +138,22 @@ namespace ApiCodeGenerator.OpenApi.Refit
                         }
 
                         CleanupProperties(prop.Properties);
+                    }
+                }
+            }
+        }
+
+        private void GenerateClientInlineReponses(IEnumerable<CSharpOperationModel> operations)
+        {
+            foreach (var operation in operations)
+            {
+                foreach (var response in operation.Responses)
+                {
+                    var schema = response.ActualResponseSchema;
+                    if (schema is not null && !schema.HasReference)
+                    {
+                        var hint = $"{operation.ActualOperationName}Response{response.StatusCode}";
+                        Resolver.Resolve(schema, schema.IsNullable(_settings.CodeGeneratorSettings.SchemaType), hint);
                     }
                 }
             }

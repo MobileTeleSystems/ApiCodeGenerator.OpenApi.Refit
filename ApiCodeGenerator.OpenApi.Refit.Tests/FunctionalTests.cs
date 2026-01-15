@@ -8,6 +8,8 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
 {
     public class FunctionalTests
     {
+        private const string NS = "TestNS";
+
         [Test]
         public void GenerateClientInterface()
         {
@@ -16,7 +18,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
             {
                 GenerateClientInterfaces = true,
             };
-            settings.CSharpGeneratorSettings.Namespace = "TestNS";
+            settings.CSharpGeneratorSettings.Namespace = NS;
             var expected =
                 "    public partial interface IClient\n" +
                 "    {\n" +
@@ -48,7 +50,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
             {
                 GenerateClientInterfaces = true,
             };
-            settings.CSharpGeneratorSettings.Namespace = "TestNS";
+            settings.CSharpGeneratorSettings.Namespace = NS;
             var expected =
                 "    public partial interface IClient\n" +
                 "    {\n" +
@@ -95,7 +97,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
             var settings = new RefitCodeGeneratorSettings
             {
                 GenerateClientInterfaces = true,
-                CSharpGeneratorSettings = { Namespace = "TestNS" },
+                CSharpGeneratorSettings = { Namespace = NS },
             };
 
             var expected =
@@ -119,7 +121,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
             {
                 GenerateClientInterfaces = true,
                 ClientBaseInterface = "IBase, IBase2",
-                CSharpGeneratorSettings = { Namespace = "TestNS" },
+                CSharpGeneratorSettings = { Namespace = NS },
             };
             var expected =
                 "    public partial interface IClient : IBase, IBase2\n" +
@@ -153,7 +155,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 GenerateClientInterfaces = true,
                 InterfaceAccessModifier = "internal",
             };
-            settings.CSharpGeneratorSettings.Namespace = "TestNS";
+            settings.CSharpGeneratorSettings.Namespace = NS;
             var expected =
                 "    internal partial interface IClient\n" +
                 "    {\n" +
@@ -187,7 +189,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 OperationAsyncSuffix = true,
                 GenerateOptionalParameters = true,
                 OperationCancelationToken = true,
-                CSharpGeneratorSettings = { Namespace = "TestNS" },
+                CSharpGeneratorSettings = { Namespace = NS },
             };
 
             var expected =
@@ -225,7 +227,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 WrapResponses = true,
                 WrapResponseMethods = new[] { "Client.GetTestOper" },
             };
-            settings.CSharpGeneratorSettings.Namespace = "TestNS";
+            settings.CSharpGeneratorSettings.Namespace = NS;
             var expectedIntefaceDeclaration =
                 "    public partial interface IClient\n" +
                 "    {\n" +
@@ -270,7 +272,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 WrapResponses = true,
                 WrapResponseMethods = new[] { "Client.GetTestOper" },
             };
-            settings.CSharpGeneratorSettings.Namespace = "TestNS";
+            settings.CSharpGeneratorSettings.Namespace = NS;
             var expectedIntefaceDeclaration =
                 "    public partial interface IClient\n" +
                 "    {\n" +
@@ -312,7 +314,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 GenerateClientInterfaces = true,
                 OperationNameGenerator = new MultipleClientsFromPathSegmentsOperationNameGenerator(),
             };
-            settings.CSharpGeneratorSettings.Namespace = "TestNS";
+            settings.CSharpGeneratorSettings.Namespace = NS;
             var document = OpenApiDocument.FromFileAsync(GetSwaggerPath("testSchema.json")).Result;
             var openApiPathItem = new OpenApiPathItem
             {
@@ -368,7 +370,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 GenerateClientInterfaces = true,
                 PathExtractExpression = @"^testService\/(.*)$",
             };
-            settings.CSharpGeneratorSettings.Namespace = "TestNS";
+            settings.CSharpGeneratorSettings.Namespace = NS;
             var expected =
                 "    public partial interface IClient\n" +
                 "    {\n" +
@@ -401,7 +403,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 GenerateClientInterfaces = true,
                 PathExtractExpression = @"^notmatch\/(.*)$",
             };
-            settings.CSharpGeneratorSettings.Namespace = "TestNS";
+            settings.CSharpGeneratorSettings.Namespace = NS;
             var expected =
                 "    public partial interface IClient\n" +
                 "    {\n" +
@@ -433,7 +435,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
             {
                 GenerateClientInterfaces = true,
             };
-            settings.CSharpGeneratorSettings.Namespace = "TestNS";
+            settings.CSharpGeneratorSettings.Namespace = NS;
             settings.GenerateOptionalParameters = true;
             var expected =
                 "    public partial interface IClient\n" +
@@ -462,7 +464,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
             {
                 GenerateClientInterfaces = true,
             };
-            settings.CSharpGeneratorSettings.Namespace = "TestNS";
+            settings.CSharpGeneratorSettings.Namespace = NS;
             settings.GenerateOptionalParameters = false;
             var expected =
                 "    public partial interface IClient\n" +
@@ -492,7 +494,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 ExcludedParameterNames = [
                     "paramWithDef"
                 ],
-                CSharpGeneratorSettings = { Namespace = "TestNS" },
+                CSharpGeneratorSettings = { Namespace = NS },
             };
 
             var expected =
@@ -522,7 +524,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 GenerateClientInterfaces = true,
                 AuthorizationHeaderParameter = true,
             };
-            settings.CSharpGeneratorSettings.Namespace = "TestNS";
+            settings.CSharpGeneratorSettings.Namespace = NS;
             settings.GenerateOptionalParameters = false;
             var expected =
                 "    public partial interface IClient\n" +
@@ -552,7 +554,7 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 GenerateOptionalParameters = false,
                 CSharpGeneratorSettings =
                 {
-                    Namespace = "TestNS",
+                    Namespace = NS,
                 },
             };
 
@@ -566,6 +568,67 @@ namespace ApiCodeGenerator.OpenApi.Refit.Tests
                 "    }\n";
 
             RunTest(settings, expected, "streamResponse.yaml", "    \n");
+        }
+
+        [Test]
+        public async Task GenerateClientInterface_DtoForResponses()
+        {
+            var yaml = """
+            openapi: 3.0.0
+            info:
+              title: inlined response schema
+              version: 1.0.0
+            paths:
+              /test:
+                get:
+                  responses:
+                    "200":
+                      description: OK
+                    "400":
+                      description: Bad
+                      content:
+                        "application/json":
+                          schema:
+                            type: object
+                            properties:
+                              errorCode:
+                                type: string
+                              errorMessage:
+                                type: string
+                            additionalProperties: false
+            """;
+            var doc = await OpenApiYamlDocument.FromYamlAsync(yaml);
+            var settings = new RefitCodeGeneratorSettings
+            {
+                GenerateClientInterfaces = true,
+                CSharpGeneratorSettings =
+                {
+                    Namespace = NS,
+                },
+            };
+
+            var expected =
+                "    public partial interface IClient\n" +
+                "    {\n" +
+                "        /// <returns>OK</returns>\n" +
+                "        /// <exception cref=\"Refit.ApiException\">A server side error occurred.</exception>\n" +
+                "        [Get(\"/test\")]\n" +
+                "        System.Threading.Tasks.Task Test();\n" +
+                "\n" +
+                "    }\n";
+
+            var response = "    " + GENERATED_CODE + "\n" +
+            "    public partial class TestResponse400\n" +
+            "    {\n" +
+            "        [Newtonsoft.Json.JsonProperty(\"errorCode\", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]\n" +
+            "        public string ErrorCode { get; set; }\n" +
+            "\n" +
+            "        [Newtonsoft.Json.JsonProperty(\"errorMessage\", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]\n" +
+            "        public string ErrorMessage { get; set; }\n" +
+            "\n" +
+            "    }\n";
+
+            RunTest(settings, expected, doc, response);
         }
     }
 }

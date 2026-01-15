@@ -21,7 +21,7 @@ namespace ApiCodeGenerator.OpenApi.Refit
                 CodeGeneratorSettings,
                 [
                     GetType().Assembly,
-                    typeof(CSharpClientGeneratorSettings).Assembly,
+                    typeof(NSwag.CodeGeneration.CSharp.CSharpClientGeneratorSettings).Assembly,
                     typeof(NJsonSchema.CodeGeneration.CSharp.CSharpGenerator).Assembly,
                 ]);
 
